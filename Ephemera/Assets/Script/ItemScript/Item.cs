@@ -5,10 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 using Mirror;
-public class Item : NetworkBehaviour, IUIVisible, IItemUsable, IItemObtainable
+public class Item : MonoBehaviour, IUIVisible, IItemUsable, IItemObtainable
 {
     [SerializeField] public ItemData itemData;
-    [SyncVar] private int itemPrice;
+    private int itemPrice;
     public int ItemPrice => itemPrice;
     public Sprite itemSprite => itemData.image;
     public bool IsBothHandGrab => itemData.isBothHand;
@@ -16,7 +16,7 @@ public class Item : NetworkBehaviour, IUIVisible, IItemUsable, IItemObtainable
     [SerializeField] Collider itemCollider;
     [SerializeField] Rigidbody rigid;
 
-    public override void OnStartServer()
+    public void Start()
     {
         itemPrice = itemData.GetRandomPrice();
     }
@@ -39,32 +39,16 @@ public class Item : NetworkBehaviour, IUIVisible, IItemUsable, IItemObtainable
 
     public void ShowPickupUI()
     {
-        //image.gameObject.SetActive(true);
+
     }
 
     public void UIvisible()
     {
-        //Image image = UIManager.Instance.GetUI<Image>("UI¿Ã∏ß");
-        //image.gameObject.SetActive(true);
+
     }
 
-    public virtual void UseItem() { }
-
-
-    #region Command Function
-    [Command]
-    public void CmdChangePosRot(Transform parent)
+    public virtual void UseItem() 
     {
-        OnClientChangePosRot(parent);
-    }
-    #endregion
-    #region ClientRpc Function
-    [ClientRpc]
-    public void OnClientChangePosRot(Transform parent)
-    {
-        transform.position = parent.position;
-        transform.rotation = parent.rotation;
-    }
-    #endregion
 
+    }
 }

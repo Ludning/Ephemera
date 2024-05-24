@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-public class PlayerController : NetworkBehaviour
+public class PlayerController : MonoBehaviour
 {
     #region Field
     private Vector2 _input;
@@ -28,6 +28,9 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private CharacterController characterController;
     [SerializeField] private Animator animator;
     [SerializeField] private Inventory inventory;
+
+    Transform localPlayerObject;
+
     private bool IsGround() => characterController.isGrounded;
     #endregion
 
@@ -64,13 +67,13 @@ public class PlayerController : NetworkBehaviour
     }
     #endregion
     #region NetworkBehaviour Function
-    /*public override void OnStartLocalPlayer()
+    public override void OnStartLocalPlayer()
     {
         characterController.enabled = true;
         GetComponent<PlayerInput>().enabled = true;
         GetComponent<Collider>().enabled = true;
         this.enabled = true;
-    }*/
+    }
     public override void OnStartClient()
     {
         if (isLocalPlayer)

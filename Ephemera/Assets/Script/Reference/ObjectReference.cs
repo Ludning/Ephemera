@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 
 public class ObjectReference : MonoBehaviour
 {
-    [SerializeField]
-    List<GameObject> objects;
-
     private static ObjectReference instance;
     public static ObjectReference Instance
     {
@@ -20,13 +18,69 @@ public class ObjectReference : MonoBehaviour
         }
     }
 
-    public GameObject GetGameObject(string name)
+    Dictionary<uint, GameObject> objectDic = new Dictionary<uint, GameObject>();
+
+    private uint currentObjectReferenceId = 0;
+    public uint GenerationObjectReferenceId => currentObjectReferenceId++;
+
+    public bool hasKey(uint objectId)
     {
-        foreach (var obj in objects)
+        return objectDic.ContainsKey(objectId);
+    }
+    public void AddGameObject(uint objectId, GameObject gameObject)
+    {
+        Debug.Log(gameObject);
+        objectDic.Add(objectId, gameObject);
+    }
+    public void RemoveGameObject(uint objectId)
+    {
+        if (hasKey(objectId))
         {
-            if (obj.name == name)
+            if(objectDic[objectId] != null)
+                Destroy(objectDic[objectId]);
+            objectDic.Remove(objectId);
+        }
+        currentObjectReferenceId = 0;
+    }
+    public GameObject GetGameObjectById(uint objectId)
+    {
+        if(objectDic.TryGetValue(objectId, out GameObject obj))
+            return obj;
+        return null;
+    }
+    public uint GetIdByGameObject(GameObject gameObject)
+    {
+        uint objectId = uint.MaxValue;
+        foreach (var pair in objectDic)
+        {
+            if (pair.Value == gameObject)
             {
-                return obj;
+                objectId = pair.Key;
+                break;
+            }
+        }
+        return objectId;
+    }
+    public uint GetIdByName(string name)
+    {
+        uint objectId = uint.MaxValue;
+        foreach (var pair in objectDic)
+        {
+            if (pair.Value.name == name)
+            {
+                objectId = pair.Key;
+                break;
+            }
+        }
+        return objectId;
+    }
+    public GameObject GetGameObjectByName(string name)
+    {
+        foreach (var pair in objectDic)
+        {
+            if (pair.Value.name == name)
+            {
+                return pair.Value;
             }
         }
         return null;

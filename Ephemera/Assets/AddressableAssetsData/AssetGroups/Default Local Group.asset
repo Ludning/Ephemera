@@ -113,6 +113,10 @@ MonoBehaviour:
     m_Address: Mine
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 805c70d44d2d9c94fa2a88054313187f
+    m_Address: ShipMiniature
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f53dd5718acd92348a91adf0d1df758a, type: 2}
   m_SchemaSet:

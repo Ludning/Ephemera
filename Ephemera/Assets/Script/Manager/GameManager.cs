@@ -22,9 +22,8 @@ public class GameManager : NetworkBehaviour
     //판매 배율
     RuntimeDungeon rd;
     Coroutine timeCoroutine;
-
     public PlayerController localPlayerController;
-
+    uint DungeonId;
     private int SalePriceMagnification
     {
         get
@@ -71,24 +70,6 @@ public class GameManager : NetworkBehaviour
         TerrainController.Instance.SetActivePlanetTerrain((Planet)index, true);
     }
 
-    public void CreateRoom(int seed)
-    {
-        rd = Instantiate(ResourceManager.Instance.GetPrefab("DungeonGenerator")).GetComponent<RuntimeDungeon>();
-        rd.Generator.Seed = seed;
-        rd.Generate();
-
-        /*//내부 첫 문과 마지막 문에 ExitDoor 추가
-        ExitDoor extFrontDoor = rd.Generator.CurrentDungeon.MainPathTiles[0].Entrance.gameObject.AddComponent<ExitDoor>();
-        ExitDoor extBackDoor = rd.Generator.CurrentDungeon.MainPathTiles.Last().Entrance.gameObject.AddComponent<ExitDoor>();
-        //외부 첫 문과 마지막 문에 EntryDoor 추가
-        EntryDoor etrFrontDoor = TerrainController.Instance.GetFrontDoor(selectPlanet).AddComponent<EntryDoor>();
-        EntryDoor etrBackDoor = TerrainController.Instance.GetBackDoor(selectPlanet).AddComponent<EntryDoor>();
-
-        extFrontDoor.entryPosition = etrFrontDoor.transform;
-        etrFrontDoor.exitPosition = extFrontDoor.transform;
-        extBackDoor.entryPosition = etrBackDoor.transform;
-        etrBackDoor.exitPosition = extBackDoor.transform;*/
-    }
     public void DestroyRoom()
     {
         Destroy(rd.gameObject);
@@ -126,6 +107,10 @@ public class GameManager : NetworkBehaviour
     [Server] public void OnServerGameReset()
     {
         Debug.Log("GameReset");
+        //게임 오브젝트 삭제
+        ClearGame();
+        //게임 오브젝트 생성
+        OnServerInitObject();
         //소지금 리셋
         OnClientSetCurrentMoney(0);
         //목표금액 리셋
@@ -134,6 +119,7 @@ public class GameManager : NetworkBehaviour
         OnServerDeadlineReset();
         //카메라 리셋
         OnClientGameStartInit();
+        //플레이어 활성화
         OnServerSetActivePlayer(true);
         //캐릭터 제어 비활성화
         OnServerSetActiveController(false);
@@ -202,13 +188,27 @@ public class GameManager : NetworkBehaviour
             return;
         //우주선 옮기고
         ShipController shipController = FindObjectOfType<ShipController>();
-        shipController.GetComponent<MovePlatform>().OnServerChangePosition(TerrainController.Instance.shipStartTransform.position);
+        GameObject ship = FindObjectOfType<ShipController>().gameObject;
+        uint shipId = ObjectReference.Instance.GetIdByGameObject(ship);
+        GameRoomNetworkManager.Instance.OnSetObjectPosRot(shipId, TerrainController.Instance.shipStartTransform.position, ship.transform.rotation);
         //함선 출발
         shipController.StartLanding(TerrainController.Instance.GetLandingZone(selectPlanet).position);
+
         //게임 시간 활성화
         timeCoroutine = StartCoroutine(IncrementTimeCounter());
 
-        OnClientEnterPlanet(OnServerGetRandomSeed());
+        //던전 생성
+        DungeonId = GameRoomNetworkManager.Instance.OnCreateDungeon("DungeonGenerator", OnServerGetRandomSeed());
+
+        //행성 진입
+        OnClientEnterPlanet();
+    }
+    /// <summary>
+    /// 초기화
+    /// </summary>
+    [Server] public void OnServerInitObject()
+    {
+        GameRoomNetworkManager.Instance.OnCreateObject("ShipMiniature", Vector3.zero);
     }
     /// <summary>
     /// 랜덤 시드 생성
@@ -234,31 +234,28 @@ public class GameManager : NetworkBehaviour
     }
     #endregion
     #region Command Function 클라이언트에서 호출하고 서버에서 실행되는 함수
-    //플레이어 상태 변화
-    /*[Command]
-    public void CmdPlayerStateChange(NetworkMessage message)
-    {
-        //myPlayerStatue.Hp -= message.damage;
-        //SetPlayerState(myPlayerStatue);
-    }*/
     #endregion
     #region ClientRpc Function 서버가 원격 프로시저 호출(RPC)로 모든 클라이언트에서 실행되는 함수
+    [ClientRpc] public void ClearGame()
+    {
+
+    }
     [ClientRpc] public void OnClientGameStartInit()
     {
         CameraReference.Instance.SetActiveVirtualCamera(VirtualCameraType.SpaceShipMiniature);
     }
-    [ClientRpc] public void OnClientEnterPlanet(int seed)
+    [ClientRpc] public void OnClientEnterPlanet()
     {
         //UI 숨기고
         UIController.Instance.SetActivateUI(null);
         //미니어쳐 Ship 숨기고
-        ObjectReference.Instance.GetGameObject("ShipMiniature").SetActive(false);
+        //ObjectReference.Instance.GetGameObject("ShipMiniature").SetActive(false);
+        uint ShipMiniatureId = 0;
+        GameRoomNetworkManager.Instance.OnSetActiveObject(ShipMiniatureId, false);
         //spaceSystem 숨기고
         SpaceSystem.Instance.SetActivateSpaceSystem(false);
         //terrain 활성화하고
         ActivatePlanetTerrain((int)selectPlanet);
-        //방 생성하고
-        CreateRoom(seed);
         //카메라 옮기고
         CameraReference.Instance.SetActiveVirtualCamera(VirtualCameraType.SpaceShip);
     }

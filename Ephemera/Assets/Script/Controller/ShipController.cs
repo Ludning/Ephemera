@@ -5,39 +5,43 @@ using TMPro;
 using TreeEditor;
 using UnityEngine;
 
-public class ShipController : NetworkBehaviour
+public class ShipController : MonoBehaviour
 {
     public Transform spawnPoint;
     [SerializeField]
     MovePlatform movePlatform;
 
-    [Server]
+    private void Awake()
+    {
+        Debug.Log("Awake!!");
+    }
+
     public void StartLanding(Vector3 destination)
     {
         // 대상 위치에서 현재 위치를 빼서 방향 벡터 계산
         Vector3 direction = destination - transform.position;
-
         direction.y = 0;
-        if (direction != Vector3.zero)
-            movePlatform.OnServerChangeRotation(Quaternion.LookRotation(direction));
+
+        uint id = ObjectReference.Instance.GetIdByGameObject(gameObject);
+        GameRoomNetworkManager.Instance.OnSetObjectPosRot(id, transform.position ,Quaternion.LookRotation(direction));
+
         StartCoroutine(Landing(destination));
     }
 
-    [Server]
     IEnumerator Landing(Vector3 destination)
     {
+        uint id = ObjectReference.Instance.GetIdByGameObject(gameObject);
         while (true)
         {
             if(Vector3.Distance(transform.position, destination) < 0.1f)
             {
-                movePlatform.OnServerChangePosition(destination);
+                GameRoomNetworkManager.Instance.OnSetObjectPosRot(id, destination, transform.rotation);
                 GameManager.Instance.OnServerActiveLocalPlayerCamera();
                 GameManager.Instance.OnServerSetActivePlayer(true);
                 UIController.Instance.SetActivateUI(typeof(UI_Setup));
                 yield break;
             }
-            //transform.rotation = Quaternion.Slerp(transform.rotation, lookAt, 0.01f);
-            movePlatform.OnServerChangePosition(Vector3.Slerp(transform.position, destination, 0.01f));
+            GameRoomNetworkManager.Instance.OnSetObjectPosRot(id, Vector3.Slerp(transform.position, destination, 0.01f), transform.rotation);
             yield return null;
         }
     }
