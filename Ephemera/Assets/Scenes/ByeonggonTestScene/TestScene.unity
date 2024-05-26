@@ -543,7 +543,7 @@ MonoBehaviour:
     PauseBetweenRooms: 0
     RestrictDungeonToBounds: 1
     TilePlacementBounds:
-      m_Center: {x: 0, y: 0, z: 0}
+      m_Center: {x: 100, y: 0, z: 0}
       m_Extent: {x: 100, y: 100, z: 100}
     OverlapThreshold: 0.0001
     Padding: 0

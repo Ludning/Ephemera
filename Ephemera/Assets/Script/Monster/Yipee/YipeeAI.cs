@@ -96,19 +96,25 @@ public class YipeeAI : MonsterAI
     //공격의지 활성화(공격 시퀀스)
     private Node.State AttackWill()
     {
+        Debug.Log("여긴 들어올거잖어?");
         //1. 플레이어에게 공격 받았는지 bool변수 확인(YipeeHealth에서)
-        if (isAttacked) 
-        { 
+        if (isAttacked)
+        {
             //YipeeHealth에서 플레이어 갱신. 
-            return Node.State.SUCCESS; 
+            Debug.Log("여기?");
+            return Node.State.SUCCESS;
         }
         //2. 플레이어가 자신을 7초 이상 쳐다봤는지 확인
         //이거는 Update에서 CheckWatched를 통해 isAttacked를 바꿔준다. 그러면 1번 경우에 걸려서 공격함.
-        
+
         //3. 플레이어가 둥지의 폐품 훔쳐간것을 봄.
         //이거도 Update에서 StolenItem으로 isAttacked를 바꿔줌.
 
-        else return Node.State.FAILURE;
+        else
+        {
+            Debug.Log("아님 여기?");
+            return Node.State.FAILURE;
+        }
     }
 
     //플레이어에게 접근(공격 시퀀스)

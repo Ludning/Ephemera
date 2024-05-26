@@ -132,7 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorPrefabPriority: 0
-  ConnectorPrefabWeights: []
+  ConnectorPrefabWeights:
+  - GameObject: {fileID: 6234677730344884651, guid: f9b89a06a4ea4b8498011c41a5ce027a, type: 3}
+    Weight: 2
   BlockerPrefabWeights:
   - GameObject: {fileID: 7525961635996198737, guid: 256f4fc6d61d2674bba981fca93e6ec0, type: 3}
     Weight: 1
@@ -197,7 +199,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorPrefabPriority: 0
-  ConnectorPrefabWeights: []
+  ConnectorPrefabWeights:
+  - GameObject: {fileID: 6234677730344884651, guid: f9b89a06a4ea4b8498011c41a5ce027a, type: 3}
+    Weight: 2
   BlockerPrefabWeights:
   - GameObject: {fileID: 7525961635996198737, guid: 256f4fc6d61d2674bba981fca93e6ec0, type: 3}
     Weight: 1
@@ -262,7 +266,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorPrefabPriority: 0
-  ConnectorPrefabWeights: []
+  ConnectorPrefabWeights:
+  - GameObject: {fileID: 6234677730344884651, guid: f9b89a06a4ea4b8498011c41a5ce027a, type: 3}
+    Weight: 2
   BlockerPrefabWeights:
   - GameObject: {fileID: 7525961635996198737, guid: 256f4fc6d61d2674bba981fca93e6ec0, type: 3}
     Weight: 1
@@ -419,7 +425,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorPrefabPriority: 0
-  ConnectorPrefabWeights: []
+  ConnectorPrefabWeights:
+  - GameObject: {fileID: 6234677730344884651, guid: f9b89a06a4ea4b8498011c41a5ce027a, type: 3}
+    Weight: 2
   BlockerPrefabWeights:
   - GameObject: {fileID: 7525961635996198737, guid: 256f4fc6d61d2674bba981fca93e6ec0, type: 3}
     Weight: 1

@@ -106,7 +106,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2071151792463735517}
-  - component: {fileID: 960432254487844249}
   m_Layer: 0
   m_Name: Entrance
   m_TagString: Untagged
@@ -129,37 +128,6 @@ Transform:
   m_Father: {fileID: 3396991979536543028}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!114 &960432254487844249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 139539218373193085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32a188f8ee195cf4cb8b2fdccd193b79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DoorPrefabPriority: 0
-  ConnectorPrefabWeights: []
-  BlockerPrefabWeights: []
-  AvoidRotatingDoorPrefab: 0
-  AvoidRotatingBlockerPrefab: 0
-  ConnectorSceneObjects: []
-  BlockerSceneObjects: []
-  Tags:
-    Tags: []
-  socketGroup_obsolete: -1
-  doorPrefabs_obsolete: []
-  blockerPrefabs_obsolete: []
-  socket: {fileID: 11400000, guid: f516feceb9494bd4fb5936f5ca4dcc25, type: 2}
-  doorPrefabInstance: {fileID: 0}
-  doorComponent: {fileID: 0}
-  tile: {fileID: 0}
-  connectedDoorway: {fileID: 0}
-  hideConditionalObjects: 0
-  fileVersion: 1
 --- !u!1 &403255125220097239
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +489,7 @@ MonoBehaviour:
   TileBoundsOverride:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0.5}
-  Entrance: {fileID: 960432254487844249}
+  Entrance: {fileID: 0}
   Exit: {fileID: 0}
   OverrideConnectionChance: 0
   ConnectionChance: 0
