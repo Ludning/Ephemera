@@ -12,7 +12,7 @@ public class Shop : MonoBehaviour
     public GameObject[] itemobj;
     public Transform[] itemPos;
 
-    public GameObject Itemparent;
+    //public GameObject Itemparent;
 
     public Image image;
     public PlayerEx Player;
