@@ -1,4 +1,4 @@
-using Mirror;
+ï»¿using Mirror;
 using Mirror.Examples.NetworkRoom;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,12 +28,12 @@ public class GameRoomNetworkManager : NetworkRoomManager
     }
 
 
-    //»õ·Î¿î Å¬¶óÀÌ¾ğÆ®°¡ ¼­¹ö¿¡ ¿¬°áµÇ¾úÀ» ¶§¿¡ ¼­¹ö¿¡¼­ È£ÃâµÇ´Â ÇÔ¼ö
+    //ìƒˆë¡œìš´ í´ë¼ì´ì–¸íŠ¸ê°€ ì„œë²„ì— ì—°ê²°ë˜ì—ˆì„ ë•Œì— ì„œë²„ì—ì„œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
     public override void OnRoomServerConnect(NetworkConnectionToClient conn)//GameObject OnRoomServerCreateRoomPlayer(NetworkConnectionToClient conn)
     {
         Debug.Log("OnRoomServerCreateRoomPlayer");
         GameObject gameobject = Instantiate(ResourceManager.Instance.GetPrefab("RoomPlayer")); //Instantiate(roomPlayerObjectPrefab.gameObject);
-        //gameobjectÀÇ ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿Í message·Î ÃÊ±âÈ­
+        //gameobjectì˜ ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì™€ messageë¡œ ì´ˆê¸°í™”
 
         Debug.Log(gameobject.name);
         NetworkServer.AddPlayerForConnection(conn, gameobject);
@@ -42,18 +42,18 @@ public class GameRoomNetworkManager : NetworkRoomManager
         GameObject roomCharacter = Instantiate(ResourceManager.Instance.GetPrefab("LobbyScavenger"));
         NetworkServer.Spawn(roomCharacter, conn);
     }
-    //Å¬¶óÀÌ¾ğÆ®°¡ Á¢¼ÓÇßÀ» ¶§ Å¬¶óÀÌ¾ğÆ®¿¡¼­ È£ÃâµÇ´Â ÇÔ¼ö
+    //í´ë¼ì´ì–¸íŠ¸ê°€ ì ‘ì†í–ˆì„ ë•Œ í´ë¼ì´ì–¸íŠ¸ì—ì„œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
     public override void OnRoomClientConnect()
     {
         Debug.Log("OnRoomClientConnect");
         //ResourceManager.Instance.GetPrefab("RoomPlayer");
     }
 
-    //GamePlayer¸¦ »ı¼ºÇÒ ¶§ È£ÃâÇÏ´Â ÇÔ¼ö
+    //GamePlayerë¥¼ ìƒì„±í•  ë•Œ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜
     public override GameObject OnRoomServerCreateGamePlayer(NetworkConnectionToClient conn, GameObject roomPlayer)
     {
         GameObject gameobject = Instantiate(ResourceManager.Instance.GetPrefab("Player"), SpawnPoint[SpawnCount].position, SpawnPoint[SpawnCount].rotation);
-        //gameobjectÀÇ ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿Í message·Î ÃÊ±âÈ­
+        //gameobjectì˜ ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì™€ messageë¡œ ì´ˆê¸°í™”
         SpawnCount++;
         NetworkServer.AddPlayerForConnection(conn, gameobject);
         return gameobject;
@@ -97,16 +97,16 @@ public class GameRoomNetworkManager : NetworkRoomManager
     }*/
     
 
-    /*//roomÇÃ·¹ÀÌ¾î »ı¼º ÇÔ¼ö
+    /*//roomí”Œë ˆì´ì–´ ìƒì„± í•¨ìˆ˜
     void OnCreateRoomCharacter(NetworkConnectionToClient conn, CreateRoomCharacterMessage message)
     {
         GameObject gameobject = Instantiate(roomPlayerPrefab.gameObject);
-        //gameobjectÀÇ ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿Í message·Î ÃÊ±âÈ­
+        //gameobjectì˜ ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì™€ messageë¡œ ì´ˆê¸°í™”
 
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }*/
 
-    /*//(¼­¹ö¿¡¼­ È£Ãâ)È£½ºÆ®°¡ ½ÃÀÛµÉ ¶§¸¦ Æ÷ÇÔÇÏ¿© ¼­¹ö°¡ ½ÃÀÛµÉ ¶§ È£ÃâµË´Ï´Ù.
+    /*//(ì„œë²„ì—ì„œ í˜¸ì¶œ)í˜¸ìŠ¤íŠ¸ê°€ ì‹œì‘ë  ë•Œë¥¼ í¬í•¨í•˜ì—¬ ì„œë²„ê°€ ì‹œì‘ë  ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤.
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -116,19 +116,19 @@ public class GameRoomNetworkManager : NetworkRoomManager
 
         //GameObject prefab = ResourceManager.Instance.GetPrefab("MoonsooTestScene/Server/Prefab/Player.prefab");
     }
-    //°ÔÀÓÇÃ·¹ÀÌ¾î »ı¼º ÇÔ¼ö
+    //ê²Œì„í”Œë ˆì´ì–´ ìƒì„± í•¨ìˆ˜
     void OnCreateCharacter(NetworkConnectionToClient conn, CreateCharacterMessage message)
     {
         GameObject gameobject = Instantiate(gamePlayerObjectPrefab);
-        //gameobjectÀÇ ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿Í message·Î ÃÊ±âÈ­
+        //gameobjectì˜ ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì™€ messageë¡œ ì´ˆê¸°í™”
 
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
-    //roomÇÃ·¹ÀÌ¾î »ı¼º ÇÔ¼ö
+    //roomí”Œë ˆì´ì–´ ìƒì„± í•¨ìˆ˜
     void OnCreateRoomCharacter(NetworkConnectionToClient conn, CreateRoomCharacterMessage message)
     {
         GameObject gameobject = Instantiate(roomPlayerPrefab.gameObject);
-        //gameobjectÀÇ ÄÄÆ÷³ÍÆ®¸¦ °¡Á®¿Í message·Î ÃÊ±âÈ­
+        //gameobjectì˜ ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì™€ messageë¡œ ì´ˆê¸°í™”
 
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }*/
